@@ -23,8 +23,7 @@ public class AbstractSpanAccessorTest {
     @Before
     public void mockSpan() {
         long id = createId();
-        Span spanMock = Span.builder().name("mock").traceId(id).spanId(id).build();
-        doReturn(spanMock.traceIdString()).when(span).traceIdString();
+        span = Span.builder().name("mock").traceId(id).spanId(id).build();
         doReturn(span).when(tracer).getCurrentSpan();
         doReturn(span).when(tracer).createSpan(anyString());
     }
@@ -32,4 +31,5 @@ public class AbstractSpanAccessorTest {
     private long createId() {
         return random.nextLong();
     }
+
 }
