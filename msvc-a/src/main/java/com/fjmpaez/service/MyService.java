@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cloud.sleuth.SpanAccessor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -18,6 +19,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class MyService {
 
     private static Logger LOGGER = LoggerFactory.getLogger(MyService.class);
+
+    @Autowired
+    private SpanAccessor spanAccessor;
 
     @Autowired
     @Qualifier("msvc-c_url")
@@ -40,6 +44,8 @@ public class MyService {
     }
 
     public void callingMsvcC() {
+
+        String traceIdString = spanAccessor.getCurrentSpan().traceIdString();
 
         String url = msvcCUrl;
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(url);
